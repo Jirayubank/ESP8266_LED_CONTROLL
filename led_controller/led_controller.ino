@@ -2,11 +2,13 @@
 #include<ESPAsyncTCP.h>
 #include<ESPAsyncWebServer.h>
 #include<FS.h>
+#include<TridentTD_LineNotify.h>
 
-
+#define line_token "Your Line Token"
 // some var
 const char* ssid = "Your WiFi name";
 const char* password = "Your WiFi password";
+
 const int ledPin = 2;
 String ledState;
 
@@ -42,6 +44,9 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.println("Connecting to WiFi..");
+    IPAddress localIP = WiFi.localIP();
+    String message = "Local IP Address: " + localIP.toString();
+    LINE.notify(message);
   }
   Serial.println(WiFi.localIP());
 
